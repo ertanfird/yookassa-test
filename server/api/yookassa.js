@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
         capture: true,
         confirmation: {
             type: 'redirect',
-            return_url: `https://xn--80aqeacgckx0b7ei.xn--p1ai/`
+            return_url: body.return_url
         },
         description: body.description,
         // metadata: {
