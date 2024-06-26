@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const API_KEY = 'test_r7OU2oCZFR0HQPEWIvGkZMdB526J3kN0N_NPy2dYwSA';
+const API_KEY = '396644:test_r7OU2oCZFR0HQPEWIvGkZMdB526J3kN0N_NPy2dYwSA';
 
 export default defineEventHandler(async (event) => {
 	const body = await readBody(event)
