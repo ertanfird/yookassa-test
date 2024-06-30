@@ -6,9 +6,9 @@
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <div>
+    <!-- <div>
         {{ config.yookassaKey }}
-    </div>
+    </div> -->
     <NuxtWelcome />
   </div>
 </template>
