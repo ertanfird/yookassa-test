@@ -4,5 +4,8 @@ export default defineNuxtConfig({
   devServer: {
     host: '0.0.0.0',
     port: 3000,
+  },
+  runtimeConfig: {
+    yookassaKey: process.env.YOOKASSA_KEY,
   }
 })
