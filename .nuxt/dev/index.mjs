@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
 import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, fetchWithEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, createError, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getQuery as getQuery$1, readBody, getResponseStatusText } from 'file://D:/Projects/crimea/node_modules/h3/dist/index.mjs';
+import fetch from 'file://D:/Projects/crimea/node_modules/unenv/runtime/npm/node-fetch.mjs';
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file://D:/Projects/crimea/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { stringify, uneval } from 'file://D:/Projects/crimea/node_modules/devalue/index.js';
 import destr from 'file://D:/Projects/crimea/node_modules/destr/dist/index.mjs';
@@ -100,7 +101,8 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {}
+  "public": {},
+  "yookassaKey": "YOOKASSA_KEY"
 };
 const envOptions = {
   prefix: "NITRO_",
@@ -1021,10 +1023,64 @@ const errorDev = /*#__PURE__*/Object.freeze({
   template: template$1
 });
 
+useRuntimeConfig();
+const API_KEY = "396644:test_r7OU2oCZFR0HQPEWIvGkZMdB526J3kN0N_NPy2dYwSA";
 const yookassa = defineEventHandler(async (event) => {
   const body = await readBody(event);
   console.log(body);
-  return body;
+  const url = "https://api.yookassa.ru/v3/payments";
+  const credentials = API_KEY;
+  const auth = Buffer.from(credentials).toString("base64");
+  const idempotenceKey = Math.random();
+  const data = {
+    amount: {
+      value: body.amount,
+      currency: "RUB"
+    },
+    payment_method_data: {
+      type: "bank_card"
+    },
+    capture: true,
+    confirmation: {
+      type: "redirect",
+      return_url: body.return_url
+    },
+    description: body.description,
+    // metadata: {
+    //     ...body.meta,
+    // },
+    "receipt": {
+      "customer": {
+        "email": body.email
+      },
+      "items": [
+        {
+          "description": "\u0410\u0439-\u041F\u0435\u0442\u0440\u0438",
+          "quantity": 1,
+          // "price": item.price + ".00",
+          "amount": {
+            "value": body.amount + ".00",
+            "currency": "RUB"
+          },
+          "vat_code": "1",
+          "payment_mode": "full_prepayment",
+          "payment_subject": "commodity"
+        }
+      ]
+    }
+  };
+  console.log(JSON.stringify(data));
+  const result = await fetch(url, {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Authorization": `Basic ${auth}`,
+      "Idempotence-Key": idempotenceKey,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  }).then((response) => response.json()).then((data2) => data2).catch((error) => error);
+  return result;
 });
 
 const yookassa$1 = /*#__PURE__*/Object.freeze({

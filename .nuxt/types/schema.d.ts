@@ -19,6 +19,8 @@ declare module 'nuxt/schema' {
       cdnURL: string,
    },
 
+   yookassaKey: string,
+
    nitro: {
       envPrefix: string,
    },
