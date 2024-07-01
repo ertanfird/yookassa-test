@@ -542,9 +542,9 @@ function normalizeCookieHeaders(headers) {
   return outgoingHeaders;
 }
 
-const config = useRuntimeConfig();
+const config$1 = useRuntimeConfig();
 const _routeRulesMatcher = toRouteMatcher(
-  createRouter({ routes: config.nitro.routeRules })
+  createRouter({ routes: config$1.nitro.routeRules })
 );
 function createRouteRulesHandler(ctx) {
   return eventHandler((event) => {
@@ -1023,8 +1023,8 @@ const errorDev = /*#__PURE__*/Object.freeze({
   template: template$1
 });
 
-useRuntimeConfig();
-const API_KEY = "396644:test_r7OU2oCZFR0HQPEWIvGkZMdB526J3kN0N_NPy2dYwSA";
+const config = useRuntimeConfig();
+const API_KEY = config.yookassaKey != "YOOKASSA_KEY" ? config.yookassaKey : "396644:test_r7OU2oCZFR0HQPEWIvGkZMdB526J3kN0N_NPy2dYwSA";
 const yookassa = defineEventHandler(async (event) => {
   const body = await readBody(event);
   console.log(body);
