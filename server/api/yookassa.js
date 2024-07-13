@@ -28,25 +28,26 @@ export default defineEventHandler(async (event) => {
             return_url: body.return_url
         },
         description: body.description,
-        // metadata: {
-        //     ...body.meta,
-        // },
+        metadata: {
+            ...body.meta,
+        },
         "receipt": {
             "customer": {
+                "full_name": body.meta.first_name + ' ' + body.meta.first_name,
+                "phone": body.meta.phone,
                 "email": body.email
             },
             "items": [
             {
 				"description": 'Ай-Петри',
 				"quantity": 1.00,
-				// "price": item.price + ".00",
 				"amount": {
 					"value": body.amount + ".00",
 					"currency": "RUB"
 				},
 				"vat_code": "1",
 				"payment_mode": "full_prepayment",
-				"payment_subject": "commodity"
+				"payment_subject": "service"
             }],
         }
     };
