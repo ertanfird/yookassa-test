@@ -14,6 +14,30 @@ export default defineEventHandler(async (event) => {
 	const auth = Buffer.from(credentials).toString('base64');
     const idempotenceKey = Math.random();
 
+    const order_obj = body.meta.items_obj[0]
+    const order_name = order_obj.order_item_name
+    const order_items = order_obj.meta.guests
+    const order_prices = order_obj.meta.price_arr.clear
+
+    const buildItems = () => {
+        const result = []
+        Object.keys(order_items).forEach(key => {
+            if (order_items[key] > 0) {
+                result.push({
+                    "description": `Тур «${order_name}» | ${key == 64 ? 'Детский' : 'Взрослый'}`,
+                    "quantity": `${order_items[key]}.00`,
+                    "amount": {
+                        "value": `${order_prices[key]}.00`,
+                        "currency": "RUB"
+                    },
+                    "vat_code": "1",
+                    "payment_mode": "full_prepayment",
+                    "payment_subject": "service"
+                })
+            }
+        })
+    }
+
 	const data = {
         amount: {
             value: body.amount,
@@ -37,18 +61,7 @@ export default defineEventHandler(async (event) => {
                 "phone": body.meta.phone,
                 "email": body.email
             },
-            "items": [
-            {
-				"description": 'Ай-Петри',
-				"quantity": 1.00,
-				"amount": {
-					"value": body.amount + ".00",
-					"currency": "RUB"
-				},
-				"vat_code": "1",
-				"payment_mode": "full_prepayment",
-				"payment_subject": "service"
-            }],
+            "items": buildItems(),
         }
     };
 
