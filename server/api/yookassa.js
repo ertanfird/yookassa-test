@@ -61,7 +61,7 @@ export default defineEventHandler(async (event) => {
         },
         "receipt": {
             "customer": {
-                "full_name": body.meta.first_name + ' ' + body.meta.first_name,
+                "full_name": body.meta.first_name + ' ' + body.meta.last_name,
                 "phone": body.meta.phone,
                 "email": body.email
             },
