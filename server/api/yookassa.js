@@ -20,11 +20,12 @@ export default defineEventHandler(async (event) => {
     const order_items = order_obj.meta.guests
     const order_prices = order_obj.meta.price_arr.clear
 
+    const items = []
+
     const buildItems = () => {
-        const result = []
         Object.keys(order_items).forEach(key => {
             if (order_items[key] > 0) {
-                result.push({
+                items.push({
                     "description": `Тур «${order_name}» | ${key == 64 ? 'Детский' : 'Взрослый'}`,
                     "quantity": `${order_items[key]}.00`,
                     "amount": {
@@ -38,6 +39,8 @@ export default defineEventHandler(async (event) => {
             }
         })
     }
+
+    buildItems()
 
 	const data = {
         amount: {
@@ -53,14 +56,16 @@ export default defineEventHandler(async (event) => {
             return_url: body.return_url
         },
         description: `${order_name}, ${body.description}`,
-        metadata: {},
+        metadata: {
+            bus_stop_name: body.meta.bus_stop_name
+        },
         "receipt": {
             "customer": {
                 "full_name": body.meta.first_name + ' ' + body.meta.first_name,
                 "phone": body.meta.phone,
                 "email": body.email
             },
-            "items": buildItems(),
+            "items": items,
         }
     };
 
