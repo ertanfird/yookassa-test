@@ -14,7 +14,8 @@ export default defineEventHandler(async (event) => {
 	const auth = Buffer.from(credentials).toString('base64');
     const idempotenceKey = Math.random();
 
-    const order_obj = body.meta.items_obj[0]
+    const parsedObj = JSON.parse(body.meta.items_obj)
+    const order_obj = Object.values(parsedObj)[0]
     const order_name = order_obj.order_item_name
     const order_items = order_obj.meta.guests
     const order_prices = order_obj.meta.price_arr.clear
