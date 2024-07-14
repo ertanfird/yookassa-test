@@ -53,9 +53,7 @@ export default defineEventHandler(async (event) => {
             return_url: body.return_url
         },
         description: body.description,
-        metadata: {
-            ...body.meta,
-        },
+        metadata: {},
         "receipt": {
             "customer": {
                 "full_name": body.meta.first_name + ' ' + body.meta.first_name,
