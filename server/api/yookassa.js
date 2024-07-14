@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
             type: 'redirect',
             return_url: body.return_url
         },
-        description: body.description,
+        description: `${order_name}, ${body.description}`,
         metadata: {},
         "receipt": {
             "customer": {
